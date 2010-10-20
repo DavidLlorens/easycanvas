@@ -42,6 +42,7 @@ class EasyCanvas(object):
         self.alto = self.ancho = 600    
         self.id = 0
         self.lock = threading.Lock()
+        self.idleLoopActive = threading.Lock()
         self.exiting = False
         self.ultimoEstadoRaton=(None,None,None)
         self.teclaApretada = False
@@ -83,15 +84,27 @@ class EasyCanvas(object):
     def idle(self):
         # read and execute any commands waiting on the queue
         while True:
-            if self.closing: return
             try:
                 func, args, kw = self.cmd_queue.get(block=False)
             except queue.Empty:
                 break
-            a=func (*args, **kw)
-            self.canvas.update()
+            
+            if self.closing: 
+                break
+            try:
+                a=func (*args, **kw)
+                self.canvas.update()
+            except:
+                break
             #print("----->", a)
-        self.root.after(10, self.idle)
+            
+        if self.closing:
+            self.lock.acquire(True) 
+            self.root.destroy()
+            self.root.quit()
+        else: 
+            self.root.after(10, self.idle)
+            
     # -----------------------------------------------------------------
     def eventoRatonMovido(self, event, boton=0):
         with self.lock:
@@ -385,8 +398,6 @@ class EasyCanvas(object):
             
     def close(self):
         self.closing = True
-        self.lock.acquire(True)
-        self.root.quit()
 
     def run(self, efunc=None):
         if efunc==None: 
@@ -395,11 +406,13 @@ class EasyCanvas(object):
             func = lambda: efunc(self)
         with self.lock:
             p = ThreadedProgram(func, self.close)
-            p.daemon = True
+            p.daemon = True 
             p.start()  
 
         self.root.after(100, self.idle)
         self.root.mainloop()
+        import sys
+        sys.exit()
         
     def main(self):
         self.easycanvas_configure(title = 'EasyCanvas test',
