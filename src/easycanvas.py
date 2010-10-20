@@ -49,10 +49,10 @@ class EasyCanvas(object):
         self.ultimaTecla = None
         self.bufTeclado = []
         self.keyspressed_set = set()
-            
+        self.usedCloseWindowButton = False    
         self.root = Tk()
         self.root.resizable(width=False, height=False)
-        self.root.protocol("WM_DELETE_WINDOW", self.close)
+        self.root.protocol("WM_DELETE_WINDOW", self.closeWindow)
         self.root.title(self._title)
         self.canvas = Canvas(self.root, borderwidth=-2, height=self.alto, width=self.ancho, background=self._background)
         self.canvas.pack(padx=0,pady=0)
@@ -397,8 +397,13 @@ class EasyCanvas(object):
             self.root.after(t, func)
             
     def close(self):
+        self.usedCloseWindowButton = False 
         self.closing = True
 
+    def closeWindow(self):
+        self.usedCloseWindowButton = True
+        self.closing = True
+        
     def run(self, efunc=None):
         if efunc==None: 
             func = self.main
@@ -411,8 +416,9 @@ class EasyCanvas(object):
 
         self.root.after(100, self.idle)
         self.root.mainloop()
-        import sys
-        sys.exit()
+        if self.usedCloseWindowButton:
+            import sys
+            sys.exit()
         
     def main(self):
         self.easycanvas_configure(title = 'EasyCanvas test',
