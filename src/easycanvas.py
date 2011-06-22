@@ -9,7 +9,6 @@ Created on 28/09/2010
 
 from tkinter import *
 import threading
-import time
 import queue
 import time
 

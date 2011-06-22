@@ -144,7 +144,6 @@ class Escena3D:
         return self.lin
     
     def _oculta(self,p1,p2,mi_linea,mi_obj):
-        rcontinua=1
         x1,y1 = p1.proy
         x2,y2 = p2.proy
         rm=[[0.0,1.0]]
