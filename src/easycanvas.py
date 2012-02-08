@@ -53,7 +53,7 @@ class EasyCanvas(object):
         self.root.resizable(width=False, height=False)
         self.root.protocol("WM_DELETE_WINDOW", self.closeWindow)
         self.root.title(self._title)
-        self.canvas = Canvas(self.root, borderwidth=-2, height=self.alto, width=self.ancho, background=self._background)
+        self.canvas = Canvas(self.root, borderwidth=0, highlightthickness=0, height=self.alto, width=self.ancho, background=self._background)
         self.canvas.pack(padx=0,pady=0)
         #self.canvas.bind('<Motion>',self.eventoRatonMovido)
         self.canvas.bind('<B1-Motion>',self.eventoRatonMovidoB1)
