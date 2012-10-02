@@ -166,7 +166,7 @@ class EasyCanvas(object):
         with self.lock:
             return self.ultimoEstadoRaton
     
-    def easycanvas_configure(self, size=None, coordinates=None, title=None, background = None):
+    def easycanvas_configure(self, size=(600,400), coordinates=(0,0,1000,1000), title='EasyCanvas', background = 'white'):
         with self.lock:
             if size!=None:
                 self.ancho, self.alto = size
