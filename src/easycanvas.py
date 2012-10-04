@@ -39,7 +39,7 @@ class EasyCanvas(object):
         self.kkLock = threading.Lock()
         self._title = "EasyCanvas"
         self._background = "white"
-        self.alto = self.ancho = 600    
+        self.alto = self.ancho = 100    
         self.id = 0
         self.lock = threading.Lock()
         self.idleLoopActive = threading.Lock()
@@ -51,6 +51,7 @@ class EasyCanvas(object):
         self.keyspressed_set = set()
         self.usedCloseWindowButton = False    
         self.root = Tk()
+        #self.root.withdraw()
         self.root.resizable(width=False, height=False)
         self.root.protocol("WM_DELETE_WINDOW", self.closeWindow)
         self.root.title(self._title)
