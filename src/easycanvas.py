@@ -43,7 +43,7 @@ class EasyCanvas(object):
         self.lock = threading.Lock()
         self.idleLoopActive = threading.Lock()
         self.exiting = False
-        self.ultimoEstadoRaton=(None,None,None)
+        self.ultimoEstadoRaton=(0,None,None)
         self.teclaApretada = False
         self.ultimaTecla = None
         self.bufTeclado = []
@@ -82,6 +82,7 @@ class EasyCanvas(object):
         
     def idle(self):
         # read and execute any commands waiting on the queue
+        t1 = time.time()
         while True:
             try:
                 func, args, kw = self.cmd_queue.get(block=False)
@@ -92,11 +93,12 @@ class EasyCanvas(object):
                 break
             try:
                 a=func (*args, **kw)
-                self.canvas.update()
             except:
                 break
+            if time.time() > t1+0.5: 
+                break
             #print("----->", a)
-            
+        self.canvas.update()   
         if self.closing:
             self.lock.acquire(True) 
             self.root.destroy()
@@ -105,6 +107,8 @@ class EasyCanvas(object):
             self.root.after(10, self.idle)
             
     # -----------------------------------------------------------------
+    def update(self):
+        self.canvas.update()
     def eventoRatonMovido(self, event, boton=0):
         with self.lock:
             x = event.x/self.escala_x - self.xinf

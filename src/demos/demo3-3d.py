@@ -26,6 +26,9 @@ class Demo3(EasyCanvas):
                      lambda t: 10000*cos(t))
         f=0
         inc = 0.04
+        fps = None
+        self.create_text(0,-500,"Pulsa <Return> para salir:",10,'S')
+        t1 = time.time()
         while 1:
             f += 1
             t = (t+inc) % pi2    
@@ -42,6 +45,11 @@ class Demo3(EasyCanvas):
             if t>pi-1e-2 or t<1e-2: inc=-inc
             lin2 = lin
             nl2 = nl
+            if fps!=None: self.erase(fps)
+            t2 = time.time()
+            fps = self.create_text(0,-450, "Frames por segundo: %.2f" % (float(f)/(t2-t1)),10,'S')
+            self.update()
+            if self.readkey(False) == "Return": break
         return f
     
     def main(self):
@@ -59,12 +67,7 @@ class Demo3(EasyCanvas):
                 cubo = Piramide3D(Punto3D(1500,1500,1500),Punto3D(x,y,z))  
             self.escena.insertar(cubo)   
 
-        t1 = time.time()
+
         f = self.paseo()
-        t2 = time.time()
-        #print f,t2,t1,t2-t1
-        self.create_text(0,-400, "Frames por segundo: %.2f" % (float(f)/(t2-t1)),10,'S')
-        self.create_text(0,-500,"Pulsa <Return> para salir:",10,'S')
-        input()
 
 Demo3().run()

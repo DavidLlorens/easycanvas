@@ -9,6 +9,16 @@ Created on 28/09/2010
 from easycanvas import EasyCanvas
 
 class Demo8(EasyCanvas):
+    
+    def wait_button(self):
+        #espera a que se suelte el botón
+        b=1
+        while b!=0: b,x2,y2=self.mouse_state()
+        #espera a que se pulse el botón
+        b=0
+        while b==0: b,x,y=self.mouse_state()
+        return b,x,y
+            
     def main(self):
         self.easycanvas_configure(title = 'Demo 7 - Uso de los botones del ratón',
                                   background = 'white',
@@ -19,22 +29,15 @@ class Demo8(EasyCanvas):
         
         l=[]
         while 1:
-          #espera a que se pulse el botón
-          b=0
-          while b!=1 and b!=3: b,x,y=self.mouse_state()
-        
-          #si boton derecho pulsado salir
-          if b==3: 
-            while b!=0: b,x2,y2=self.mouse_state()
-            break
-          
-          #dibuja un circulo
-          l.append(self.create_circle(x,y,20))
-          if len(l)>20: #como máximo se permiten 20 círculos
-            self.erase(l[0])
-            del l[0]    #se borra el más viejo
-        
-          #espera a que se suelte el botón
-          while b!=0: b,x2,y2=self.mouse_state()
+            #espera a que se pulse el botón
+            b,x,y = self.wait_button()
+            
+            if b == 1:  #dibuja un circulo
+                l.append(self.create_circle(x,y,20))
+                if len(l)>20: #como máximo se permiten 20 círculos
+                    self.erase(l[0])
+                    del l[0]    #se borra el más viejo
+            else:       #si pulsa otro boton salir 
+                break
 
 Demo8().run()

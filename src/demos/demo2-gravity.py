@@ -52,21 +52,22 @@ class Demo2(EasyCanvas):
         
         tecla=None
         t1=time.time()
-        for rr in range(1500):
-          old_x=[]
-          old_y=[]
-          for p in lp:
-            old_x.append(p.x)
-            old_y.append(p.y)
-          for r in range(10):
+        for rr in range(7000):
+            old_x=[]
+            old_y=[]
+            for p in lp:
+                old_x.append(p.x)
+                old_y.append(p.y)
+            for r in range(2):
+                for i in range(len(lp)):
+                    self.gravedad(lp[i],lp[i+1:]) 
+            old_lc=lc[:]
+            lc=[]
             for i in range(len(lp)):
-              self.gravedad(lp[i],lp[i+1:]) 
-          old_lc=lc[:]
-          lc=[]
-          for i in range(len(lp)):
-            lc.append(lp[i].dibuja(self))
-            self.erase(old_lc[i])
-            self.create_line(old_x[i],old_y[i],lp[i].x,lp[i].y,lp[i].color)
+                lc.append(lp[i].dibuja(self))
+                self.erase(old_lc[i])
+                self.create_line(old_x[i],old_y[i],lp[i].x,lp[i].y,lp[i].color)
+            self.update()  
         t2=time.time()
         sys.stderr.write('Execution time: %f seconds\n' % (t2-t1))
         self.create_text(0,-400,"Press any key to exit",10,'S','white')
