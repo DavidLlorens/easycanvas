@@ -58,7 +58,7 @@ class Demo2(EasyCanvas):
             for p in lp:
                 old_x.append(p.x)
                 old_y.append(p.y)
-            for r in range(2):
+            for r in range(15):
                 for i in range(len(lp)):
                     self.gravedad(lp[i],lp[i+1:]) 
             old_lc=lc[:]
