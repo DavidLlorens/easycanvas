@@ -47,7 +47,8 @@ class Demo3(EasyCanvas):
             nl2 = nl
             if fps!=None: self.erase(fps)
             t2 = time.time()
-            fps = self.create_text(0,-450, "Frames por segundo: %.2f" % (float(f)/(t2-t1)),10,'S')
+            if t2 != t1:
+                fps = self.create_text(0,-450, "Frames por segundo: %.2f" % (float(f)/(t2-t1)),10,'S')
             self.update()
             if self.readkey(False) == "Return": break
         return f

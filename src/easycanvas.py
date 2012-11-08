@@ -11,7 +11,7 @@ from tkinter import *
 import threading
 import queue
 import time
-
+from time import sleep
 class MiExcepcion(Exception):
     def __init__(self, value):
         self.value = value
@@ -36,6 +36,7 @@ class ThreadedProgram(threading.Thread):
                 
 class EasyCanvas(object):
     def __init__(self):
+        self.kkLock = threading.Lock()
         self._title = "EasyCanvas"
         self._background = "white"
         self.alto = self.ancho = 600    
@@ -80,7 +81,7 @@ class EasyCanvas(object):
         #self.root.after(100, self.idle)
         #self.root.mainloop()
         
-    def idle(self):
+    def idle(self, td=0.5):
         # read and execute any commands waiting on the queue
         t1 = time.time()
         while True:
@@ -95,10 +96,12 @@ class EasyCanvas(object):
                 a=func (*args, **kw)
             except:
                 break
-            if time.time() > t1+0.5: 
+            if time.time() > t1+td: 
                 break
             #print("----->", a)
-        self.canvas.update()   
+        self.canvas.update_idletasks()  
+        self.exit_idle = True 
+
         if self.closing:
             self.lock.acquire(True) 
             self.root.destroy()
@@ -108,7 +111,12 @@ class EasyCanvas(object):
             
     # -----------------------------------------------------------------
     def update(self):
-        self.canvas.update()
+        self.exit_idle = False 
+        while not self.exit_idle:
+            sleep(0.001)
+
+        #self.canvas.update_idletasks()
+        #self.canvas.update()
     def eventoRatonMovido(self, event, boton=0):
         with self.lock:
             x = event.x/self.escala_x - self.xinf
