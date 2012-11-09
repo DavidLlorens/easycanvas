@@ -6,12 +6,12 @@ Created on 28/09/2010
 @contact: dllorens@lsi.uji.es
 @copyright: Universitat Jaume I de Castelló (2010)
 '''
-
+import sys
 from tkinter import *
 import threading
 import queue
 import time
-from time import sleep
+
 class MiExcepcion(Exception):
     def __init__(self, value):
         self.value = value
@@ -73,6 +73,7 @@ class EasyCanvas(object):
         
         self.closing = False
         self.cmd_queue = queue.Queue()
+        self.event = threading.Event()
         self.easycanvas_configure(coordinates=(0,0, 1000, 1000))
         
         #with self.lock:
@@ -84,40 +85,41 @@ class EasyCanvas(object):
         
     def idle(self, td=0.5):
         # read and execute any commands waiting on the queue
-        t1 = time.time()
+        #t1 = time.time()
+        worked = False
         while True:
+            if self.closing: break
+            if self.cmd_queue.empty(): break
+            
             try:
                 func, args, kw = self.cmd_queue.get(block=False)
             except queue.Empty:
                 break
             
-            if self.closing: 
-                break
             try:
-                a=func (*args, **kw)
+                func (*args, **kw)
+                worked = True
             except:
                 break
-            if time.time() > t1+td: 
-                break
-            #print("----->", a)
-        self.canvas.update_idletasks()  
-        self.exit_idle = True 
+            #if time.time() > t1+td: 
+            #    break
 
+        if worked: self.canvas.update_idletasks()  
+
+        self.event.set()
+        
         if self.closing:
             self.lock.acquire(True) 
             self.root.destroy()
             self.root.quit()
         else: 
-            self.root.after(10, self.idle)
+            self.root.after(5, self.idle)
             
     # -----------------------------------------------------------------
     def update(self):
-        self.exit_idle = False 
-        while not self.exit_idle:
-            sleep(0.001)
-
-        #self.canvas.update_idletasks()
-        #self.canvas.update()
+        if self.cmd_queue.empty(): return
+        self.event.clear()
+        self.event.wait()
     def eventoRatonMovido(self, event, boton=0):
         with self.lock:
             x = event.x/self.escala_x - self.xinf
@@ -348,8 +350,8 @@ class EasyCanvas(object):
             except:
                 raise MiExcepcion2("textoError", (x,y,cadena,anchor))
     
-    def __erase_list(self, list): 
-        for indice in list: self.canvas.delete(indice)
+    def __erase_list(self, alist): 
+        for indice in alist: self.canvas.delete(indice)
     
     def __erase_all(self): 
         for indice in self.canvas.find_all(): self.canvas.delete(indice)
@@ -429,7 +431,6 @@ class EasyCanvas(object):
         self.root.after(100, self.idle)
         self.root.mainloop()
         if self.usedCloseWindowButton:
-            import sys
             sys.exit()
         
     def main(self):
