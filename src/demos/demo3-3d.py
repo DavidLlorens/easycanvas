@@ -8,7 +8,7 @@ Created on 29/09/2010
 '''
 from easycanvas import EasyCanvas
 
-from lib3d import * #importa módulo de 3D
+from libsimple3d import * #importa módulo de 3D
 from math import sin, cos, pi
 import time
 

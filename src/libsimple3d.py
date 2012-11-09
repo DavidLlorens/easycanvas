@@ -53,6 +53,17 @@ class Escena3D:
         m.rotacionX(-phi)
         self.transforma3d(m)
         
+    def puntoVistaObj(self, pv, obj, ppd=None):
+        if ppd!=None: self.ppd = ppd
+        x, y, z = pv.x, pv.y, pv.z
+        m = Matriz3D()
+        m.traslacion(-x,-y,-z)
+        rho = atan2(x,z)
+        m.rotacionY(rho)
+        phi = atan2(y,sqrt(x*x+z*z))
+        m.rotacionX(-phi)
+        obj.transforma3d(m)
+        
     def dibuja(self):
         a=len(self.o)
         self.lin=[]
@@ -334,6 +345,9 @@ class Objeto3D:
         
     def copia(self):
         return Objeto3D(self.puntos3d,self.caras,self.carasP,
+                                        self.lineas,self.lineasR)
+    def copiaT(self):
+        return Objeto3D(self.puntos3dT,self.caras,self.carasP,
                                         self.lineas,self.lineasR)
     
     def nuevaCara(self,lInd):
