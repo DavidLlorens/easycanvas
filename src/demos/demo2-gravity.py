@@ -52,7 +52,10 @@ class Demo2(EasyCanvas):
         
         tecla=None
         t1=time.time()
-        for rr in range(7000):
+        self.create_text(0,-400,"Press any key to exit",10,'S','white')
+        exit = False
+        for rr in range(1000):
+            if self.readkey(False) != None: exit = True; break
             old_x=[]
             old_y=[]
             for p in lp:
@@ -70,7 +73,6 @@ class Demo2(EasyCanvas):
             self.update()  
         t2=time.time()
         sys.stderr.write('Execution time: %f seconds\n' % (t2-t1))
-        self.create_text(0,-400,"Press any key to exit",10,'S','white')
-        self.readkey(True)
+        if not exit: self.readkey(True)
     
 Demo2().run()

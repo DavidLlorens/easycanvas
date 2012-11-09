@@ -20,7 +20,7 @@ class Demo8(EasyCanvas):
         return b,x,y
             
     def main(self):
-        self.easycanvas_configure(title = 'Demo 7 - Uso de los botones del ratón',
+        self.easycanvas_configure(title = 'Demo 8 - Uso de los botones del ratón',
                                   background = 'white',
                                   size = (600,600), 
                                   coordinates = (0,0, 1000, 1000))

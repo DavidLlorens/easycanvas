@@ -113,7 +113,7 @@ class EasyCanvas(object):
             self.root.destroy()
             self.root.quit()
         else: 
-            self.root.after(5, self.idle)
+            self.root.after(1, self.idle)
             
     # -----------------------------------------------------------------
     def update(self):

@@ -30,7 +30,7 @@ class Demo7(EasyCanvas):
             l.append(self.create_line(x2,y2,x,y))
             #print len(l)
             #print(l[-1])
-            if len(l)>40:
+            if len(l)>60:
               self.erase(l[0])
               del l[0]
             x2,y2 = x,y

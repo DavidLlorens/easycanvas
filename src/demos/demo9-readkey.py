@@ -1,4 +1,4 @@
-#coding:latin1
+#coding: latin1
 '''
 Created on 30/09/2010
 
