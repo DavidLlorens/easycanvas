@@ -346,9 +346,6 @@ class Objeto3D:
     def copia(self):
         return Objeto3D(self.puntos3d,self.caras,self.carasP,
                                         self.lineas,self.lineasR)
-    def copiaT(self):
-        return Objeto3D(self.puntos3dT,self.caras,self.carasP,
-                                        self.lineas,self.lineasR)
     
     def nuevaCara(self,lInd):
         self.carasP.append([lInd[:],1])
@@ -455,6 +452,8 @@ class Punto3D:
         return (self.x*otro.x+self.y*otro.y+self.z*otro.z)
     def __str__(self):
         return '[%.2f %.2f %.2f]' % (self.x, self.y, self.z)
+    def __repr__(self):
+        return self.__str__()
                
 class Matriz3D:
     def __init__(self, ini=None):
@@ -602,6 +601,34 @@ class Matriz3D:
             z = otro.x*m0[2] + otro.y*m1[2] + otro.z*m2[2] + m3[2]            
             return Punto3D(x,y,z);
 
+class Malla3D(Objeto3D):
+    def __init__(self,mat):
+        fil = len(mat)
+        col = len(mat[0])
+        self.lp = [Punto3D(f*10,mat[f][c],c*10) for f in range(fil) for c in range(col)]
+        
+        #m = Matriz3D()
+        #m.escalado(1,1,1)
+        #m.traslacion(0,0,0)
+        #self.transforma3d(m)
+        #self.setup()
+        self.lc = []
+        for f in range(fil-1):
+            for c in range(col-1):
+                #print(f,c)
+                p = f*fil+c
+                p2 =(f+1)*fil+c
+                self.lc.append([p2+1,p+1,p])
+                self.lc.append([p2,p2+1,p])
+
+        Objeto3D.__init__(self, self.lp, caras=self.lc)
+        m = Matriz3D()
+        #m.escalado(1,1,1)
+        #m.traslacion(0,0,0)
+        self.transforma3d(m)
+        self.setup()
+        #list(map(self.nuevaCara,self.lc))
+        
 class Rectangulo3D(Objeto3D):
     lp = [Punto3D( 1,-1,-1), Punto3D( 1,-1, 1),
                 Punto3D( 1, 1, 1), Punto3D( 1, 1,-1),
