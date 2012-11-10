@@ -10,7 +10,6 @@ Created on 28/09/2010
 import tkinter
 import threading, queue, time, sys
 
-
 class MiExcepcion(Exception):
     def __init__(self, value):
         self.value = value
@@ -361,7 +360,7 @@ class EasyCanvas(object):
                 try: 
                     #self.__erase_all()
                     self.cmd_queue.put((self.__erase_all, (), {}))
-                except TclError: pass
+                except tkinter.TclError: pass
             elif isinstance(indice, list) and len(indice)>0:
                 try: 
                     #list(map(self.canvas.delete, indice))
