@@ -15,14 +15,14 @@ class Demo5(EasyCanvas):
     colores=['red','green','blue','yellow','orange','black','pink']
     
     def entero_azar_rango(self,a,b):
-      return int(random()*(b-a+1)+a)
+        return int(random()*(b-a+1)+a)
     
     def dibuja_circulo_azar(self):
-      x=self.entero_azar_rango(0,1000)
-      y=self.entero_azar_rango(0,1000)
-      tam=self.entero_azar_rango(10,300)
-      col=self.colores[self.entero_azar_rango(0,len(self.colores)-1)]
-      return self.create_filled_circle(x,y,tam,col)
+        x=self.entero_azar_rango(0,1000)
+        y=self.entero_azar_rango(0,1000)
+        tam=self.entero_azar_rango(10,300)
+        col=self.colores[self.entero_azar_rango(0,len(self.colores)-1)]
+        return self.create_filled_circle(x,y,tam,col)
   
     def main(self):
         self.easycanvas_configure(title = 'Demo 5 - Círculos aleatorios',

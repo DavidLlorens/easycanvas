@@ -8,7 +8,6 @@ Created on 29/09/2010
 '''
 from easycanvas import EasyCanvas
 
-from math import pi
 import time,sys
 
 class Planeta:
@@ -50,18 +49,17 @@ class Demo2(EasyCanvas):
         lc=[]
         for p in lp: lc.append(p.dibuja(self))
         
-        tecla=None
         t1=time.time()
         self.create_text(0,-400,"Press any key to exit",10,'S','white')
-        exit = False
-        for rr in range(1000):
-            if self.readkey(False) != None: exit = True; break
+        exitDemo = False
+        for _ in range(1000):
+            if self.readkey(False) != None: exitDemo = True; break
             old_x=[]
             old_y=[]
             for p in lp:
                 old_x.append(p.x)
                 old_y.append(p.y)
-            for r in range(15):
+            for _ in range(15):
                 for i in range(len(lp)):
                     self.gravedad(lp[i],lp[i+1:]) 
             old_lc=lc[:]
@@ -73,6 +71,6 @@ class Demo2(EasyCanvas):
             self.update()  
         t2=time.time()
         sys.stderr.write('Execution time: %f seconds\n' % (t2-t1))
-        if not exit: self.readkey(True)
+        if not exitDemo: self.readkey(True)
     
 Demo2().run()

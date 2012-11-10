@@ -13,7 +13,7 @@ class Demo8(EasyCanvas):
     def wait_button(self):
         #espera a que se suelte el botón
         b=1
-        while b!=0: b,x2,y2=self.mouse_state()
+        while b!=0: b,_,_=self.mouse_state()
         #espera a que se pulse el botón
         b=0
         while b==0: b,x,y=self.mouse_state()

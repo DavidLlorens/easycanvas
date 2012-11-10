@@ -27,7 +27,6 @@ class Demo9(EasyCanvas):
         print("Non blocking readkey. Press 'Escape' to exit")
         print("--------------------------------------------")
         k=None
-        i = 0
         while k!= "Escape":
             k=self.readkey(False)
             print("\t",k)

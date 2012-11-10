@@ -8,7 +8,7 @@ Created on 29/09/2010
 '''
 from easycanvas import EasyCanvas
 
-from libsimple3d import * #importa módulo de 3D
+from libsimple3d import Escena3D, Cubo3D, Piramide3D, Punto3D #importa módulo de 3D
 from math import sin, cos, pi
 import time
 
@@ -69,6 +69,6 @@ class Demo3(EasyCanvas):
             self.escena.insertar(cubo)   
 
 
-        f = self.paseo()
+        self.paseo()
 
 Demo3().run()

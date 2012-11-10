@@ -19,20 +19,18 @@ class Demo7(EasyCanvas):
         
         #espera a que se pulse el botón
         b=0
-        while b!=1: b,x2,y2=self.mouse_state()
-        
+        while b==0: b,x2,y2=self.mouse_state()
+
         #mientras botón pulsado
         l=[]
         while 1:
-          b,x,y = self.mouse_state()
-          if b==0: break
-          if x!=None and y!=None and (x!=x2 or y!=y2):
-            l.append(self.create_line(x2,y2,x,y))
-            #print len(l)
-            #print(l[-1])
-            if len(l)>60:
-              self.erase(l[0])
-              del l[0]
-            x2,y2 = x,y
+            b,x,y = self.mouse_state()
+            if b==0: break
+            if x!=None and y!=None and (x!=x2 or y!=y2):
+                l.append(self.create_line(x2,y2,x,y))
+                if len(l)>60:
+                    self.erase(l[0])
+                    del l[0]
+                x2,y2 = x,y
 
 Demo7().run()

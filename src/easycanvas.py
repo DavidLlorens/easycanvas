@@ -42,7 +42,6 @@ class EasyCanvas(object):
         self.alto = self.ancho = 100    
         self.id = 0
         self.lock = threading.Lock()
-        self.idleLoopActive = threading.Lock()
         self.exiting = False
         self.ultimoEstadoRaton=(0,None,None)
         self.teclaApretada = False
@@ -101,8 +100,7 @@ class EasyCanvas(object):
                 worked = True
             except:
                 break
-            #if time.time() > t1+td: 
-            #    break
+            #if time.time() > t1+td: break
 
         if worked: self.canvas.update_idletasks()  
 
@@ -178,9 +176,11 @@ class EasyCanvas(object):
         self.teclaApretada = False
         
     def mouse_state(self):
+        self.event.clear()
+        self.event.wait()
         with self.lock:
             return self.ultimoEstadoRaton
-    
+         
     def easycanvas_configure(self, size=(600,400), coordinates=(0,0,1000,1000), title='EasyCanvas', background = 'white'):
         with self.lock:
             if size!=None:

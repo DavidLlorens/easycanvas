@@ -25,9 +25,9 @@ class Demo4(EasyCanvas):
             self.move('c',1,0)
             self.move('c2',-1,0)
         
-        id=self.create_text(500,500,"Press any key to delete left circles",12)
+        textId=self.create_text(500,500,"Press any key to delete left circles",12)
         self.readkey(True)
-        self.erase(['c2',id])
+        self.erase(['c2',textId])
         self.create_text(500,500,"Press any key to exit",12)
         self.readkey(True)
     
