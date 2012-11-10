@@ -6,11 +6,10 @@ Created on 28/09/2010
 @contact: dllorens@lsi.uji.es
 @copyright: Universitat Jaume I de Castelló (2010)
 '''
-import sys
-from tkinter import *
-import threading
-import queue
-import time
+
+import tkinter
+import threading, queue, time, sys
+
 
 class MiExcepcion(Exception):
     def __init__(self, value):
@@ -49,12 +48,12 @@ class EasyCanvas(object):
         self.bufTeclado = []
         self.keyspressed_set = set()
         self.usedCloseWindowButton = False    
-        self.root = Tk()
+        self.root = tkinter.Tk()
         #self.root.withdraw()
         self.root.resizable(width=False, height=False)
         self.root.protocol("WM_DELETE_WINDOW", self.closeWindow)
         self.root.title(self._title)
-        self.canvas = Canvas(self.root, borderwidth=0, highlightthickness=0, height=self.alto, width=self.ancho, background=self._background)
+        self.canvas = tkinter.Canvas(self.root, borderwidth=0, highlightthickness=0, height=self.alto, width=self.ancho, background=self._background)
         self.canvas.pack(padx=0,pady=0)
         #self.canvas.bind('<Motion>',self.eventoRatonMovido)
         self.canvas.bind('<B1-Motion>',self.eventoRatonMovidoB1)
