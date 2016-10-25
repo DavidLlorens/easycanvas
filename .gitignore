@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+.DS_Store
 env/
 build/
 develop-eggs/
@@ -90,3 +91,5 @@ ENV/
 .ropeproject
 
 .pydevproject
+
+.settings/
